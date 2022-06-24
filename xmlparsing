@@ -1,0 +1,29 @@
+xmlContentTextView.setText("");
+            try {
+                InputStream is = getAssets().open("weather.xml");
+
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                Document doc = dBuilder.parse(is);
+
+                Element element = (Element) doc.getDocumentElement();
+                element.normalize();
+
+                NodeList nList = doc.getElementsByTagName("weather");
+
+                for (int i = 0; i < nList.getLength(); i++) {
+
+                    Node node = nList.item(i);
+                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+                        Element element2 = (Element) node;
+                        xmlContentTextView.setText(xmlContentTextView.getText() + "\nCity Name : " + getValue("City_Name", element2) + "\n");
+                        xmlContentTextView.setText(xmlContentTextView.getText() + "Latitude : " + getValue("Latitude", element2) + "\n");
+                        xmlContentTextView.setText(xmlContentTextView.getText() + "Longitude : " + getValue("Longitude", element2) + "\n");
+                        xmlContentTextView.setText(xmlContentTextView.getText() + "Temperature : " + getValue("Temperature", element2) + "\n");
+                        xmlContentTextView.setText(xmlContentTextView.getText() + "Humidity : " + getValue("Humidity", element2) + "\n");
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
